@@ -28,10 +28,20 @@ public class User {
 	private String userName;
 	@Column(name = "password")
 	private String password;
+	@Column(name = "token")
+	private String token;
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	@Column(name = "address")
 	private String address;
+	
+	
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
 	public int getUserId() {
 		return userId;
 	}

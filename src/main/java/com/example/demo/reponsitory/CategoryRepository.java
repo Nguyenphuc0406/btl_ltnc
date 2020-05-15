@@ -1,8 +1,10 @@
 package com.example.demo.reponsitory;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.demo.entity.Category;
+import org.springframework.stereotype.Repository;
 
+import com.example.demo.entity.Category;
+@Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 	Category findByCategoryId(int categoryId);
 }

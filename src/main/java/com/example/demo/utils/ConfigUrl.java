@@ -5,14 +5,15 @@ public interface ConfigUrl {
 	String URL_API = "/api";
 	String URL_CUSTOMER = URL_API + "/customer";
 	String URL_PRODUCT = URL_API + "/product";
-	String URL_ORDER = URL_API + "/order";
-	String URL_USER = URL_API + "/user";
-	String URL_CONFIG = URL_API + "/config";
-	String URL_ROLES = URL_API + "/roles";
+	String URL_CATEGORY = URL_API + "/category";
+//	String URL_ORDER = URL_API + "/order";
+//	String URL_USER = URL_API + "/user";
+//	String URL_CONFIG = URL_API + "/config";
+//	String URL_ROLES = URL_API + "/roles";
 
 //  child
 	String GET_PRODUCT_NEW = "/getProduct";
-	String GET_PRODUCT_BY_ID = "/getProductById";
+	String GET_PRODUCT_BY_ID = "/getByCategory";
 	String GET_ALL_PRODUCT_TYPE = "/getAllProductType";
 	String ADD_PRODUCT_NEW = "/addProductNew";
 	String UPDATE_PRODUCT= "/updateProduct";

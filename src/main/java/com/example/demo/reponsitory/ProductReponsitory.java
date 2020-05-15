@@ -1,5 +1,8 @@
 package com.example.demo.reponsitory;
 
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,6 +16,12 @@ import com.example.demo.entity.Product;
 @Repository
 public interface ProductReponsitory extends JpaRepository<Product, Integer> {
 	Product findByProductId(int productId);
+	//List<Product> findByCategory(Integer productId, Pageable pageable);
+	List<Product> findByCategory(Category category);
+//	@Transactional
+//	@Modifying
+//	@Query(value="SELECT * From Product pd WHERE pd.category =?1")
+//	List<Product> findByCategory(int category);
 
 	@Transactional
 	@Modifying
@@ -24,4 +33,6 @@ public interface ProductReponsitory extends JpaRepository<Product, Integer> {
 	@Modifying
 	@Query(value = "DELETE from Product pd  WHERE pd.productId = :productId")
 	void deleteProductByProductId(@Param("productId") int productId);
+	
+	 
 }

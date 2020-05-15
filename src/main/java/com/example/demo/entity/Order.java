@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
 @JsonIgnoreType
 @Entity
-@Table(name = "order")
+@Table(name = "order_khachhang")
 public class Order {
 	@Id
 	@Column(name = "order_id")
