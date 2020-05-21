@@ -8,6 +8,7 @@ import com.example.demo.entity.User;
 public interface UserReponsitoty extends JpaRepository<User,Integer> {
 	User findByUserName(String userName);
 	User findByToken(String token);
+	User findByUserId(int userId);
 //    Users findByToken(String token);
 //
 //    @Query("select new com.uet.shop.mvc.model.dto.UserOrderDTO(u.userId,u.userName,count(o.staffId) )" +

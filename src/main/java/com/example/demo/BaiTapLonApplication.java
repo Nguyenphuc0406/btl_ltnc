@@ -1,10 +1,15 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.example.demo.entity.User;
+import com.example.demo.reponsitory.UserReponsitoty;
 
 @SpringBootApplication
 public class BaiTapLonApplication {
@@ -22,4 +27,10 @@ public class BaiTapLonApplication {
 			}
 		};
 	}
+//	@Autowired
+//	UserReponsitoty userRepository;
+//	@Autowired
+//	PasswordEncoder passwordEncoder;
+//
+
 }

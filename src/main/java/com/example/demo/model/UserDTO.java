@@ -12,7 +12,7 @@ public class UserDTO {
 	private String phoneNumber;
 	private String token;
 	private String address;
-	private List<Role> roles;
+//	private List<Role> roles;
 
 	public int getUserId() {
 		return userId;
@@ -70,12 +70,12 @@ public class UserDTO {
 		this.address = address;
 	}
 
-	public List<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
+//	public List<Role> getRoles() {
+//		return roles;
+//	}
+//
+//	public void setRoles(List<Role> roles) {
+//		this.roles = roles;
+//	}
 
 }

@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
 				newProduct.setProductPrice(productDTO.getPrice());
 				newProduct.setProductName(productDTO.getProductName());
 				newProduct.setProductImage(productDTO.getImage());
-
+				newProduct.setQuantity(productDTO.getQuantity());
 				Product insertP = productReponsitory.save(newProduct);
 				return insertP != null ? new OkResponse<String>("Add product successfuly!")
 						: new NotFoundResponse("Add product error!");
@@ -84,8 +84,9 @@ public class ProductServiceImpl implements ProductService {
 				newProduct.setProductPrice(productDTO.getPrice());
 				newProduct.setProductName(productDTO.getProductName());
 				newProduct.setProductImage(productDTO.getImage());
+				newProduct.setQuantity(productDTO.getQuantity());
 				productReponsitory.updateProductByProductId(newProduct.getProductName(), newProduct.getCategory(),
-						newProduct.getProductImage(), newProduct.getProductPrice(), newProduct.getDescription(), id);
+						newProduct.getProductImage(), newProduct.getProductPrice(), newProduct.getDescription(),newProduct.getQuantity() , id);
 				return new OkResponse<String>("Update product successfuly!");
 			} else {
 				return new NotFoundResponse("Input invali!");

@@ -59,12 +59,6 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public BaseResponse updateCategory(CategoryDTO categoryDTO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public BaseResponse deleteCategory(int id) {
 		// TODO Auto-generated method stub
 		return null;
@@ -75,5 +69,29 @@ public class CategoryServiceImpl implements CategoryService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public BaseResponse updateCategory(int id, CategoryDTO categoryDTO) {
+		if (categoryDTO != null && categoryDTO.getCategoryName() != null) {
+
+			Category categoryOld = categoryRepository.findByCategoryId(id);
+			if (categoryOld != null) {
+				Category category = new Category();
+				category.setCategoryImage(categoryDTO.getCategoryImage());
+				category.setCategoryName(categoryDTO.getCategoryName());
+				category.setDescription(categoryDTO.getDescription());
+
+				categoryRepository.updateCategoryByCategoryId(categoryDTO.getCategoryName(),
+						categoryDTO.getCategoryImage(), categoryDTO.getDescription(), id);
+				return new OkResponse<String>("Update category successfuly!");
+			} else {
+				return new NotFoundResponse("Input invali!");
+			}
+		} else {
+			return new NotFoundResponse("Category not found!");
+		}
+	}
+
+//		return categoryRepository.updateProductByProductId(categoryName, categoryImage, description, categoryId);
 
 }

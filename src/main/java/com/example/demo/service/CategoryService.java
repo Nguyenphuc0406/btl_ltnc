@@ -14,7 +14,7 @@ public interface CategoryService {
 
 	public Category getCategory(int id);
 
-	public BaseResponse updateCategory(CategoryDTO categoryDTO);
+	public BaseResponse updateCategory(int id, CategoryDTO categoryDTO);
 
 	public BaseResponse deleteCategory(int id);
 

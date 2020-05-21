@@ -25,9 +25,9 @@ public interface ProductReponsitory extends JpaRepository<Product, Integer> {
 
 	@Transactional
 	@Modifying
-	@Query(value = "UPDATE Product pd SET pd.productName = ?1, pd.category = ?2, pd.productImage=?3, pd.productPrice =?4, pd.description = ?5 WHERE pd.productId = ?6")
+	@Query(value = "UPDATE Product pd SET pd.productName = ?1, pd.category = ?2, pd.productImage=?3, pd.productPrice =?4, pd.description = ?5, pd.quantity =?6 WHERE pd.productId = ?7")
 	void updateProductByProductId(String productName, Category category, String productImage, int productPrice,
-			String description, int productId);
+			String description,int quantity, int productId);
 
 	@Transactional
 	@Modifying

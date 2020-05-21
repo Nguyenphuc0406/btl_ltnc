@@ -7,8 +7,15 @@ public class ProductDTO {
 	private String image;
 	private String description;
 	private int price;
+	private int quantity;
 	
 	
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 	public int getProductId() {
 		return productId;
 	}

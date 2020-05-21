@@ -20,7 +20,7 @@ import com.example.demo.service.ProductService;
 import com.example.demo.utils.ConfigUrl;
 
 @RestController
-@RequestMapping(ConfigUrl.URL_PRODUCT)
+@RequestMapping(ConfigUrl.URL_PRODUCT) // api/product
 public class ProductController {
 	@Autowired
 	ProductService productservice;

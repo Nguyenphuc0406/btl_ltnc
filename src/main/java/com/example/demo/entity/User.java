@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,8 +11,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import lombok.EqualsAndHashCode;
+import lombok.ToString.Exclude;
 
 @Entity
 @Table(name ="user")
@@ -24,6 +29,12 @@ public class User {
 	private String code;
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "users", cascade=CascadeType.ALL)
     private List<UserRole> userRoles = new ArrayList<>();
+	 // mappedBy trỏ tới tên biến users ở trong Role.
+//    @ManyToMany(mappedBy = "users")
+//    // LAZY để tránh việc truy xuất dữ liệu không cần thiết. Lúc nào cần thì mới query
+//    @EqualsAndHashCode.Exclude
+//    @Exclude
+//    private Collection<Role> roles;
 	@Column(name = "user_name")
 	private String userName;
 	@Column(name = "password")
@@ -60,9 +71,16 @@ public class User {
 	public void setUserRoles(List<UserRole> userRoles) {
 		this.userRoles = userRoles;
 	}
+	
 	public String getUserName() {
 		return userName;
 	}
+//	public Collection<Role> getRoles() {
+//		return roles;
+//	}
+//	public void setRoles(Collection<Role> roles) {
+//		this.roles = roles;
+//	}
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
