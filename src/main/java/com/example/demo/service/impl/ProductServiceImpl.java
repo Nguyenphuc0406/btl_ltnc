@@ -68,7 +68,7 @@ public class ProductServiceImpl implements ProductService {
 	public Product getProduct(int id) {
 		Product product = new Product();
 		product = productReponsitory.findByProductId(id);
-		return null;
+		return product;
 	}
 
 	@Override

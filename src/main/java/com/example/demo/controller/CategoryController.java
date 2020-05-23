@@ -34,6 +34,11 @@ public class CategoryController {
 		return categoryService.getAllCategory();
 	}
 	
+	@GetMapping(path = "/{id}")
+	public Category getCategory(@PathVariable("id") int categoryId) {
+		return categoryService.getCategory(categoryId);
+	}
+	
 	@PutMapping(path = "/{id}")
 	public BaseResponse updateCategory(@PathVariable("id") int categoryId, @RequestBody CategoryDTO categoryDTO) {
 		return categoryService.updateCategory(categoryId, categoryDTO);
