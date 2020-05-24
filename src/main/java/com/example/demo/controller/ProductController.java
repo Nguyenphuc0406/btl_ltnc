@@ -45,9 +45,13 @@ public class ProductController {
 		return productservice.deleteProduct(productId);
 	}
 
-	@PostMapping(ConfigUrl.GET_PRODUCT_BY_ID)
-	public BaseResponse getProductById(@RequestBody GetProductByIdRequest request) {
+	@PostMapping(ConfigUrl.GET_PRODUCT_BY_CATE_ID)
+	public BaseResponse getProductByCategoryId(@RequestBody GetProductByIdRequest request) {
 		return productservice.getProductByCategoryId(request);
+	}
+	@PostMapping( ConfigUrl.GET_PRODUCT_BY_ID )
+	public BaseResponse getProductById(@PathVariable ("id") int productId) {
+		return productservice.getProduct(productId);
 	}
 
 }

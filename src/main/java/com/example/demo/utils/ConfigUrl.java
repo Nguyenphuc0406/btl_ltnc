@@ -13,7 +13,8 @@ public interface ConfigUrl {
 
 //  child
 	String GET_PRODUCT_NEW = "/getProduct";
-	String GET_PRODUCT_BY_ID = "/getByCategory";
+	String GET_PRODUCT_BY_CATE_ID = "/getByCategory";
+	String GET_PRODUCT_BY_ID = "/getByProductId/{id}";
 	String GET_ALL_PRODUCT_TYPE = "/getAllProductType";
 	String ADD_PRODUCT_NEW = "/addProductNew";
 	String UPDATE_PRODUCT= "/updateProduct";

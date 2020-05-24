@@ -12,11 +12,12 @@ public interface ProductService {
 
 	public List<Product> getAllProduct();
 
-	public Product getProduct(int id);
+	public BaseResponse getProduct(int id);
 
 	public BaseResponse updateProduct(int id, ProductDTO productDTO);
 
 	public BaseResponse deleteProduct(int id);
+	 
 
 	public BaseResponse getProductByCategoryId(GetProductByIdRequest request);
 

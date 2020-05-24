@@ -15,6 +15,10 @@ import com.example.demo.entity.Product;
 
 @Repository
 public interface ProductReponsitory extends JpaRepository<Product, Integer> {
+//	@Transactional
+////	@Modifying
+//	@Query(value = "SELECT pd.productId, pd.productName, pd.category, pd.productImage,pd.productPrice,pd.description, pd.quantity  From Product pd WHERE pd.productId =:productId")
+//	Product findByProductId(int productId);
 	Product findByProductId(int productId);
 	//List<Product> findByCategory(Integer productId, Pageable pageable);
 	List<Product> findByCategory(Category category);

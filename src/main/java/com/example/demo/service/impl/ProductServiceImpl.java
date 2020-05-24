@@ -65,10 +65,24 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product getProduct(int id) {
+	public BaseResponse getProduct(int id) {
 		Product product = new Product();
 		product = productReponsitory.findByProductId(id);
-		return null;
+		
+		if (product != null) {
+			ProductDTO dto = new ProductDTO();
+			dto.setProductId(product.getProductId());
+			dto.setCategoryId(product.getCategory().getCategoryId());
+			dto.setDescription(product.getDescription());
+			dto.setPrice(product.getProductPrice());
+			dto.setProductName(product.getProductName());
+			dto.setImage(product.getProductImage());
+			dto.setQuantity(product.getQuantity());
+			return new OkResponse(dto);
+		} else {
+			return new NotFoundResponse("Product not found!");
+		}
+
 	}
 
 	@Override
@@ -86,7 +100,8 @@ public class ProductServiceImpl implements ProductService {
 				newProduct.setProductImage(productDTO.getImage());
 				newProduct.setQuantity(productDTO.getQuantity());
 				productReponsitory.updateProductByProductId(newProduct.getProductName(), newProduct.getCategory(),
-						newProduct.getProductImage(), newProduct.getProductPrice(), newProduct.getDescription(),newProduct.getQuantity() , id);
+						newProduct.getProductImage(), newProduct.getProductPrice(), newProduct.getDescription(),
+						newProduct.getQuantity(), id);
 				return new OkResponse<String>("Update product successfuly!");
 			} else {
 				return new NotFoundResponse("Input invali!");
