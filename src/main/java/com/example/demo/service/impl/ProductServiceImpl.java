@@ -68,6 +68,7 @@ public class ProductServiceImpl implements ProductService {
 	public BaseResponse getProduct(int id) {
 		Product product = new Product();
 		product = productReponsitory.findByProductId(id);
+
 		
 		if (product != null) {
 			ProductDTO dto = new ProductDTO();

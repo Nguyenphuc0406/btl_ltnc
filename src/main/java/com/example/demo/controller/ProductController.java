@@ -29,7 +29,12 @@ public class ProductController {
 	public List<Product> getAllProduct() {
 		return productservice.getAllProduct();
 	}
-
+	
+	@GetMapping(path = "/{id}")
+	public Product getProduct(@PathVariable("id") int productId) {
+		return productservice.getProduct(productId);
+	}
+	
 	@PostMapping()
 	public BaseResponse addProduct(@RequestBody ProductDTO productDTO) {
 		return productservice.addProduct(productDTO);

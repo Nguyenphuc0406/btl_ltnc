@@ -10,6 +10,7 @@ import com.example.demo.base.response.BaseResponse;
 import com.example.demo.base.response.NotFoundResponse;
 import com.example.demo.base.response.OkResponse;
 import com.example.demo.entity.Category;
+import com.example.demo.entity.Product;
 import com.example.demo.model.CategoryDTO;
 import com.example.demo.reponsitory.CategoryRepository;
 import com.example.demo.service.CategoryService;
@@ -54,14 +55,21 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public Category getCategory(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return categoryRepository.findByCategoryId(id);
 	}
 
 	@Override
 	public BaseResponse deleteCategory(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Category category = categoryRepository.findByCategoryId(id);
+		if (category != null) {
+			categoryRepository.deleteById(id);
+
+			return new OkResponse<String>("Delete product successfuly!");
+
+		} else {
+			return new NotFoundResponse("Product not found!");
+
+		}
 	}
 
 	@Override
