@@ -26,12 +26,12 @@ public class ProductController {
 	ProductService productservice;
 
 	@GetMapping()
-	public List<Product> getAllProduct() {
+	public BaseResponse getAllProduct() {
 		return productservice.getAllProduct();
 	}
 	
 	@GetMapping(path = "/{id}")
-	public Product getProduct(@PathVariable("id") int productId) {
+	public BaseResponse getProduct(@PathVariable("id") int productId) {
 		return productservice.getProduct(productId);
 	}
 	

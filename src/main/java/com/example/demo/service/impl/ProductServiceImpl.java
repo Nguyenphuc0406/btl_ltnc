@@ -58,10 +58,29 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> getAllProduct() {
-		List<Product> listProduct = new ArrayList<Product>();
-		listProduct = productReponsitory.findAll();
-		return listProduct;
+	public BaseResponse getAllProduct() {
+		List<Product> productList = productReponsitory.findAll();
+		List<ProductDTO> dtoList = new ArrayList<>();
+
+		if (productList != null) {
+
+			for (Product product : productList) {
+				ProductDTO dto = new ProductDTO();
+				dto.setProductId(product.getProductId());
+				dto.setCategoryId(product.getCategory().getCategoryId());
+				dto.setDescription(product.getDescription());
+				dto.setPrice(product.getProductPrice());
+				dto.setProductName(product.getProductName());
+				dto.setImage(product.getProductImage());
+				dto.setQuantity(product.getQuantity());
+				dtoList.add(dto);
+
+			}
+			return new OkResponse(dtoList);
+		} else {
+			return new NotFoundResponse("Product not found!");
+		}
+
 	}
 
 	@Override
@@ -69,7 +88,6 @@ public class ProductServiceImpl implements ProductService {
 		Product product = new Product();
 		product = productReponsitory.findByProductId(id);
 
-		
 		if (product != null) {
 			ProductDTO dto = new ProductDTO();
 			dto.setProductId(product.getProductId());

@@ -10,7 +10,7 @@ import com.example.demo.model.ProductDTO;
 public interface ProductService {
 	public BaseResponse addProduct(ProductDTO productDTO);
 
-	public List<Product> getAllProduct();
+	public BaseResponse getAllProduct();
 
 	public BaseResponse getProduct(int id);
 
