@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,6 +33,7 @@ public class Product {
 	@Column(name = "description")
 	private String description;
 	@Column(name = "quantity")
+	@NotNull
 	private int quantity;
 
 	public int getProductId() {

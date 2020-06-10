@@ -10,56 +10,68 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="order_detail")
+@Table(name = "order_detail")
 public class OrderDetail {
 	@Id
 	@Column(name = "order_detail_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int orderDetailId;
 // @JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@OneToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
 	@Column(name = "quantity")
 	private int quantity;
-	@Column(name = "total_price")
-	private int totalPrice;
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "order_id")
-	private Order order;
+	@Column(name = "each_price")
+	private int eachPrice;
+	@ManyToOne
+	@JoinColumn(name = "order_id", nullable = false)
+	private OrderKhachHang orderKhachHang;
+
 	public int getOrderDetailId() {
 		return orderDetailId;
 	}
+
 	public void setOrderDetailId(int orderDetailId) {
 		this.orderDetailId = orderDetailId;
 	}
+
 	public Product getProduct() {
 		return product;
 	}
+
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+
 	public int getQuantity() {
 		return quantity;
 	}
+
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public int getTotalPrice() {
-		return totalPrice;
+
+	public int getEachPrice() {
+		return eachPrice;
 	}
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
+
+	public void setEachPrice(int eachPrice) {
+		this.eachPrice = eachPrice;
 	}
-	public Order getOrder() {
-		return order;
+
+	public OrderKhachHang getOrderKhachHang() {
+		return orderKhachHang;
 	}
-	public void setOrder(Order order) {
-		this.order = order;
+
+	public void setOrderKhachHang(OrderKhachHang orderKhachHang) {
+		this.orderKhachHang = orderKhachHang;
 	}
-	
+
+
 
 }

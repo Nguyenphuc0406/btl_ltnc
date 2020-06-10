@@ -34,7 +34,8 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public BaseResponse addProduct(ProductDTO productDTO) {
 
-		if (productDTO != null && productDTO.getCategoryId() > 0 && productDTO.getProductName() != null) {
+		if (productDTO != null && productDTO.getCategoryId() > 0 && productDTO.getProductName() != null
+				&& productDTO.getPrice() > 0 && productDTO.getQuantity() > 0) {
 			Category category = categoryRepo.findByCategoryId(productDTO.getCategoryId());
 			if (category != null) {
 

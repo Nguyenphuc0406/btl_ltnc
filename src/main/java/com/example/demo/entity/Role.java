@@ -19,6 +19,7 @@ import javax.persistence.Table;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.ToString.Exclude;
 
 @Entity
 @Table(name = "role")
@@ -29,20 +30,15 @@ public class Role {
 	private int roleId;
 	@Column(name = "role_name")
 	private String roleName;
-//	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	// Quan hệ n-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
-//	@EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-//	@ToString.Exclude // Khoonhg sử dụng trong toString()
-//
-//	@JoinTable(name = "user_role", // Tạo ra một join Table tên là "user_role"
-//			joinColumns = @JoinColumn(name = "role_id"), // TRong đó, khóa ngoại chính là role_id trỏ tới class hiện tại
-//															// (Role)
-//			inverseJoinColumns = @JoinColumn(name = "user_id") // Khóa ngoại thứ 2 trỏ tới thuộc tính ở dưới (USer)
-//	)
+//	@ManyToMany(mappedBy = "roles")
+//    // LAZY để tránh việc truy xuất dữ liệu không cần thiết. Lúc nào cần thì mới query
+//  @EqualsAndHashCode.Exclude
+//    @Exclude
 //	private Collection<User> users;
-
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "role", cascade = CascadeType.ALL)
-	private List<UserRole> userRoles = new ArrayList<>();
+//
+//	@OneToMany(fetch = FetchType.EAGER, mappedBy = "role", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "roles")
+	private List<User> users;
 	@Column(name = "description")
 	private String description;
 
@@ -62,28 +58,20 @@ public class Role {
 		this.roleName = roleName;
 	}
 
-	public List<UserRole> getUserRoles() {
-		return userRoles;
-	}
-
-	public void setUserRoles(List<UserRole> userRoles) {
-		this.userRoles = userRoles;
-	}
-
 	public String getDescription() {
 		return description;
 	}
 
-//	public Collection<User> getUsers() {
-//		return users;
-//	}
-//
-//	public void setUsers(Collection<User> users) {
-//		this.users = users;
-//	}
-
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 }
