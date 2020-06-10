@@ -61,17 +61,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 		http.cors(); // Ngăn chặn request từ một domain khác
 		// Cho phép tất cả mọi người truy cập
 		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/customer/login").permitAll();
-//		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/product/**").permitAll();
-//		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/category/**").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/product/**").permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/category/**").permitAll();
 
-//		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/product").access("hasRole('ROLE_ADMIN')")
-//				.antMatchers(HttpMethod.PUT, "/api/product/**").access("hasRole('ROLE_ADMIN')");
+		// create, update product
+		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/product").access("hasRole('ADMIN')")
+				.antMatchers(HttpMethod.PUT, "/api/product/**").access("hasRole('ADMIN')")
+				// add user
+				.antMatchers(HttpMethod.POST, "api/customer").access("hasRole('ADMIN')")
 
-//				.antMatchers(HttpMethod.GET, "/api/product/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/customer/admin").access("hasRole('USER')");
-
+//		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/product/**")
+//				.access("hasRole('ADMIN') or hasRole('USER')");
 //				formLogin().loginPage("/api/customer/login");
-//			.anyRequest().authenticated(); // Tất cả các request khác đều cần phải xác thực mới được truy cập
+				.anyRequest().authenticated(); // Tất cả các request khác đều cần phải xác thực mới được truy cập
 		// Thêm một lớp Filter kiểm tra jwt
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}

@@ -2,15 +2,20 @@ package com.example.demo.security.jwt;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
 @Data
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
@@ -18,30 +23,29 @@ public class CustomUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
+//		  return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+		Set<Role> roles = user.getRoles();
+		for (Role role : roles) {
+			grantedAuthorities.add(new SimpleGrantedAuthority( role.getRoleName()));
 
-		return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+		}
+		return grantedAuthorities;
+//		return null;
 	}
-
-
 
 	public CustomUserDetails(User user) {
 		super();
 		this.user = user;
 	}
 
-
-
 	public User getUser() {
 		return user;
 	}
 
-
-
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-
 
 	@Override
 	public String getPassword() {

@@ -12,6 +12,7 @@ import com.example.demo.base.request.OrderRequest;
 import com.example.demo.base.request.ProductRequest;
 import com.example.demo.base.response.BaseResponse;
 import com.example.demo.base.response.NotFoundResponse;
+import com.example.demo.base.response.OkResponse;
 import com.example.demo.entity.OrderDetail;
 import com.example.demo.entity.OrderKhachHang;
 import com.example.demo.entity.Product;
@@ -37,12 +38,11 @@ public class OrderUserServiceImpl implements OrderUserService {
 
 	@Override
 	// rollBack khi gap loi tao don hang
-	@Transactional(propagation = Propagation.REQUIRES_NEW,
-    rollbackFor = Exception.class)
+	@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
 	public BaseResponse addToCart(OrderRequest request, String token) throws Exception {
 		if (request != null && request.getListProducts() != null && !request.getListProducts().isEmpty()) {
 			OrderKhachHang khachHang = new OrderKhachHang();
-			
+
 			Long sumMoney = 0l;
 			// get datetime
 			java.util.Date dt = new java.util.Date();
@@ -55,7 +55,7 @@ public class OrderUserServiceImpl implements OrderUserService {
 			for (ProductRequest productRequest : request.getListProducts()) {
 
 				Product product = productReponsitory.findByProductId(productRequest.getProductId());
-			// kiem tra so luong trong kho
+				// kiem tra so luong trong kho
 				if (product.getQuantity() > productRequest.getQuantity() - 1) {
 					sumMoney += product.getProductPrice() * productRequest.getQuantity();
 					OrderDetail orderDetail = new OrderDetail();
@@ -83,13 +83,13 @@ public class OrderUserServiceImpl implements OrderUserService {
 				throw e;
 			}
 
-			
 			khachHang.setOrderDetails(listOrderDetail);
 			khReponsitory.save(khachHang);
+			return new OkResponse<String>("Add to cart successfuly!");
 		} else {
 			return new NotFoundResponse("Input Invali !");
 		}
-		return null;
+
 	}
 
 	@Override
