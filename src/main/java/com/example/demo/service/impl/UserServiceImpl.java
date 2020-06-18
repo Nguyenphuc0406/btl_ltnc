@@ -20,9 +20,12 @@ import com.example.demo.base.response.BaseResponse;
 import com.example.demo.base.response.NotFoundResponse;
 import com.example.demo.base.response.OkResponse;
 import com.example.demo.config.LocalMessageUtils;
+import com.example.demo.entity.Product;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserRole;
+import com.example.demo.model.ProductDTO;
+import com.example.demo.model.RoleDTO;
 import com.example.demo.model.UserDTO;
 import com.example.demo.reponsitory.RoleReponsitory;
 import com.example.demo.reponsitory.UserReponsitoty;
@@ -45,12 +48,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	JwtTokenProvider jwtTokenProvider;
 
 	@Override
-	public BaseResponse addUser(UserDTO userDTO, String token) {
+	public BaseResponse addUser(UserDTO userDTO) {
 //		User insertU = userReponsitory.save(userDTO);
 //		return insertU != null ? new OkResponse<String>("Add user successfuly!")
 //			: new NotFoundResponse("Add user error!");
 		if (userDTO != null && userDTO.getPassword() != null && userDTO.getUserName() != null
-				&& userDTO.getRoleName() != null && !userDTO.getRoleName().isEmpty() && token != null) {
+				&& userDTO.getRoleName() != null && !userDTO.getRoleName().isEmpty()) {
 
 			User userCheck = userReponsitory.findByUserName(userDTO.getUserName());
 
@@ -59,19 +62,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 				User userCreated = null;
 				try {
 
-					String userCreatedStr = jwtTokenProvider.getUserNameFromJWT(token);
-					System.out.println(userCreatedStr + " Phuc");
-					userCreated = userReponsitory.findByUserName(userCreatedStr);
+//					String userCreatedStr = jwtTokenProvider.getUserNameFromJWT(token);
+//					System.out.println(userCreatedStr + " Phuc");
+//					userCreated = userReponsitory.findByUserName(userCreatedStr);
 
-					List<String> roleCreated = new ArrayList<String>();
-					for (Role role : userCreated.getRoles()) {
-						roleCreated.add(role.getRoleName());
-					}
+//					List<String> roleCreated = new ArrayList<String>();
+//					for (Role role : userCreated.getRoles()) {
+//						roleCreated.add(role.getRoleName());
+//					}
+//
+//					int roleNumberCreated = getMaxRoleType(roleCreated);
+//					int roleNew = getMaxRoleType(userDTO.getRoleName());
 
-					int roleNumberCreated = getMaxRoleType(roleCreated);
-					int roleNew = getMaxRoleType(userDTO.getRoleName());
-
-					if (roleNumberCreated > roleNew && roleNew > 0) {
 						User userInserted = new User();
 						userInserted.setCode(userDTO.getCode());
 						userInserted.setUserName(userDTO.getUserName());
@@ -92,12 +94,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 						userReponsitory.save(userInserted);
 						
 						return new OkResponse("Duoc tao user");
-						
-					} else {
-						return new OkResponse("Khong co quyen tao user");
-					}
 				} catch (Exception e) {
-					return new NotFoundResponse("Token invali!");
+					return new NotFoundResponse("Error");
 
 				}
 
@@ -217,6 +215,77 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			return (UserDetails) new UsernameNotFoundException("User not found with id : " + id);
 		}
 
+	}
+
+	@Override
+	public BaseResponse addRole(RoleDTO roleDTO) {
+		Role role = new Role();
+		role.setDescription(roleDTO.getDescription());
+		role.setRoleName(roleDTO.getRoleName());
+		roleReponsitory.save(role);
+		return null;
+	}
+
+	@Override
+	public List<Role> getAllRole() {
+		
+		return roleReponsitory.findAll();
+	}
+
+	@Override
+	public BaseResponse getAllUser() {
+		List<User> users = userReponsitory.findAll();
+		List<UserDTO>userDTOs = new ArrayList<>();
+		if (users != null) {
+
+			for (User user : users) {
+				UserDTO dto = new UserDTO();
+				dto.setUserId(user.getUserId());	
+				dto.setAddress(user.getAddress());
+				dto.setUserId(user.getUserId());
+				dto.setUserName(user.getUserName());
+				dto.setCode(user.getCode());
+				dto.setPassword(user.getPassword());
+				dto.setPhoneNumber(user.getPhoneNumber());
+				userDTOs.add(dto);
+
+			}
+			return new OkResponse(userDTOs);
+		} else {
+			return new NotFoundResponse("Product not found!");
+		}
+	}
+
+	@Override
+	public BaseResponse deleteUser(int id) {
+		User user = userReponsitory.findByUserId(id);
+		if (user != null) {
+			userReponsitory.deleteById(id);
+
+			return new OkResponse<String>("Delete user successfuly!");
+
+		} else {
+			return new NotFoundResponse("User not found!");
+
+		}
+	}
+
+	@Override
+	public BaseResponse getUser(int id) {
+		User user = userReponsitory.findByUserId(id);
+		
+		if (user != null) {
+			UserDTO dto = new UserDTO();
+			dto.setAddress(user.getAddress());
+			dto.setCode(user.getCode());
+			dto.setPassword(user.getPassword());
+			dto.setPhoneNumber(user.getPhoneNumber());
+			dto.setUserId(user.getUserId());
+			dto.setUserName(user.getUserName());
+			return new OkResponse(dto);
+		} else {
+			return new NotFoundResponse("Product not found!");
+		}
 	}
 
 }

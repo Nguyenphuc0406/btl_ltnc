@@ -1,5 +1,10 @@
 package com.example.demo.controller;
 
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,16 +12,19 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.base.response.BaseResponse;
 import com.example.demo.base.response.OkResponse;
-import com.example.demo.entity.User;
+import com.example.demo.entity.Role;
+import com.example.demo.model.RoleDTO;
 import com.example.demo.model.UserDTO;
 import com.example.demo.security.jwt.CustomUserDetails;
 import com.example.demo.security.jwt.JwtTokenProvider;
@@ -42,11 +50,28 @@ public class UserController {
 	@Autowired
 	private UserService mUserService;
 
+	@GetMapping()
+	public BaseResponse getAllUser() {
+		return mUserService.getAllUser();
+	}
+	@DeleteMapping(path = "/{id}")
+	public BaseResponse deleteUser(@PathVariable("id") int id)  {
+		return mUserService.deleteUser(id);
+	}
 	@PostMapping()
-	public BaseResponse addUser(@RequestBody UserDTO userDTO, @RequestHeader("accept-token") String token) {
-		return mUserService.addUser(userDTO, token);
+	public BaseResponse addUser(@RequestBody UserDTO userDTO) {
+		return mUserService.addUser(userDTO);
 	}
 
+	@GetMapping(value="/logout")
+	public BaseResponse logout (HttpServletRequest request, HttpServletResponse response) {
+	  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	  if (auth != null){
+	    new SecurityContextLogoutHandler().logout(request, response, auth);
+	  }
+	  return new OkResponse("User is logged out");
+	}
+	
 	@PostMapping(ConfigUrl.LOGIN)
 	public BaseResponse login(@Valid @RequestBody UserDTO request) {
 
@@ -59,9 +84,15 @@ public class UserController {
 		// SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		// Trả về jwt cho người dùng.
-		String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+		CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+		String jwt = tokenProvider.generateToken(customUserDetails);
 		UserDTO userDTO = new UserDTO();
 		userDTO.setToken(jwt);
+		String role = "" + customUserDetails.getAuthorities();
+		
+		List<String> roleName = Arrays.asList(role);
+		userDTO.setRoleName(roleName);
+		userDTO.setUserName(request.getUserName());
 		return new OkResponse(userDTO);
 
 		// Nếu không xảy ra exception tức là thông tin hợp lệ
@@ -69,6 +100,15 @@ public class UserController {
 
 	}
 
+	@PostMapping("/role")
+	public BaseResponse addRole(@RequestBody RoleDTO role) {
+		return mUserService.addRole(role);
+	}
+	
+	@GetMapping("/role")
+	public List<Role> getRole() {
+		return mUserService.getAllRole();
+	}
 	@GetMapping("/admin")
 	public String helloAdmin() {
 		return "Chi admin moi xem duoc !";

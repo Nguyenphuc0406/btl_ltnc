@@ -57,24 +57,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable(); // config loi 403
-
+		http.logout();
 		http.cors(); // Ngăn chặn request từ một domain khác
 		// Cho phép tất cả mọi người truy cập
-		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/customer/login").permitAll();
+		http.authorizeRequests().antMatchers("/api/customer/**").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/product/**").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/category/**").permitAll();
 
 		// create, update product
-		http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/product").access("hasRole('ADMIN')")
+		http.authorizeRequests()
+				.antMatchers(HttpMethod.POST, "/api/product").access("hasRole('ADMIN')")
 				.antMatchers(HttpMethod.PUT, "/api/product/**").access("hasRole('ADMIN')")
+				.antMatchers(HttpMethod.DELETE, "/api/product/**").access("hasRole('ADMIN')")
+				.antMatchers(HttpMethod.POST, "/api/category/**").access("hasRole('ADMIN')")
+				.antMatchers(HttpMethod.PUT, "/api/category/**").access("hasRole('ADMIN')")
+				.antMatchers(HttpMethod.DELETE, "/api/category/**").access("hasRole('ADMIN')")
 				// add user
-				.antMatchers(HttpMethod.POST, "api/customer").access("hasRole('ADMIN')")
+//				.antMatchers(HttpMethod.POST, "api/customer").access("hasRole('ADMIN')")
 
 //		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/product/**")
 //				.access("hasRole('ADMIN') or hasRole('USER')");
 //				formLogin().loginPage("/api/customer/login");
 				.anyRequest().authenticated(); // Tất cả các request khác đều cần phải xác thực mới được truy cập
 		// Thêm một lớp Filter kiểm tra jwt
-		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.addFilterAfter(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 }
