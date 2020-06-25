@@ -39,7 +39,7 @@ public class OrderUserServiceImpl implements OrderUserService {
 	@Override
 	// rollBack khi gap loi tao don hang
 	@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
-	public BaseResponse addToCart(OrderRequest request, String token) throws Exception {
+	public BaseResponse addToCart(OrderRequest request, String userName) throws Exception {
 		if (request != null && request.getListProducts() != null && !request.getListProducts().isEmpty()) {
 			OrderKhachHang khachHang = new OrderKhachHang();
 
@@ -53,17 +53,17 @@ public class OrderUserServiceImpl implements OrderUserService {
 			khachHang.setOrderCode(StringUtils.randomCode());
 			List<OrderDetail> listOrderDetail = new ArrayList<OrderDetail>();
 			for (ProductRequest productRequest : request.getListProducts()) {
-
+				
 				Product product = productReponsitory.findByProductId(productRequest.getProductId());
 				// kiem tra so luong trong kho
-				if (product.getQuantity() > productRequest.getQuantity() - 1) {
-					sumMoney += product.getProductPrice() * productRequest.getQuantity();
+				if (product.getQuantity() > productRequest.getQuantityBuy() - 1) {
+					sumMoney += product.getProductPrice() * productRequest.getQuantityBuy();
 					OrderDetail orderDetail = new OrderDetail();
-					orderDetail.setEachPrice(product.getProductPrice() * productRequest.getQuantity());
+					orderDetail.setEachPrice(product.getProductPrice() * productRequest.getQuantityBuy());
 					orderDetail.setQuantity(product.getQuantity());
 					orderDetail.setProduct(product);
 					orderDetail.setOrderKhachHang(khachHang);
-					product.setQuantity(product.getQuantity() - productRequest.getQuantity());
+					product.setQuantity(product.getQuantity() - productRequest.getQuantityBuy());
 					productReponsitory.save(product);
 					listOrderDetail.add(orderDetail);
 
@@ -75,12 +75,11 @@ public class OrderUserServiceImpl implements OrderUserService {
 			khachHang.setTotalPrice(sumMoney.intValue());
 
 			try {
-				String userCreatedStr = jwtTokenProvider.getUserNameFromJWT(token);
 
-				User userOrder = userReponsitory.findByUserName(userCreatedStr);
+				User userOrder = userReponsitory.findByUserName(userName);
 				khachHang.setUserId(userOrder.getUserId());
 			} catch (Exception e) {
-				throw e;
+				throw new Exception("Can dang nhap");
 			}
 
 			khachHang.setOrderDetails(listOrderDetail);

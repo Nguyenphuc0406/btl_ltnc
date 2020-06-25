@@ -160,11 +160,30 @@ public class ProductServiceImpl implements ProductService {
 			// List<Category> listCategory = categoryRepo.findAll();
 			Category category = categoryRepo.findByCategoryId(request.getCategoryId());
 			List<Product> listProduct = productReponsitory.findByCategory(category);
+			List<ProductDTO> dtoList = new ArrayList<>();
+
+			if (listProduct != null) {
+
+				for (Product product : listProduct) {
+					ProductDTO dto = new ProductDTO();
+					dto.setProductId(product.getProductId());
+					dto.setCategoryId(product.getCategory().getCategoryId());
+					dto.setDescription(product.getDescription());
+					dto.setPrice(product.getProductPrice());
+					dto.setProductName(product.getProductName());
+					dto.setImage(product.getProductImage());
+					dto.setQuantity(product.getQuantity());
+					dtoList.add(dto);
+
+				}
+				return new OkResponse(dtoList);
+			} else {
+				return new NotFoundResponse("Product not found!");
+			}
 //			for(Category category : listCategory) {
 //				List<Product> products = category.getProducts();
 //				return new OkResponse(products);
 //			}
-			return new OkResponse(listProduct);
 		} else {
 			return new NotFoundResponse(LocalMessageUtils.getMessage("category_service_error_try_again"));
 		}

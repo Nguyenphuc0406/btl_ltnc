@@ -2,7 +2,7 @@ package com.example.demo.base.request;
 
 public class ProductRequest {
 	private int productId;
-	private int quantity;
+	private int quantityBuy;
 
 	public int getProductId() {
 		return productId;
@@ -12,11 +12,11 @@ public class ProductRequest {
 		this.productId = productId;
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public int getQuantityBuy() {
+		return quantityBuy;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setQuantityBuy(int quantityBuy) {
+		this.quantityBuy = quantityBuy;
 	}
 }
