@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 					int roleNumberCreated = getMaxRoleType(roleCreated);
 					int roleNew = getMaxRoleType(userDTO.getRoleName());
 
-					if (roleNumberCreated > roleNew && roleNew > 0) {
+				if (roleNumberCreated > roleNew && roleNew > 0) {
 						User userInserted = new User();
 						userInserted.setCode(userDTO.getCode());
 						userInserted.setUserName(userDTO.getUserName());
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 						
 					} else {
 						return new OkResponse("Khong co quyen tao user");
-					}
+				}
 				} catch (Exception e) {
 					return new NotFoundResponse("Token invali!");
 
@@ -218,5 +218,55 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		}
 
 	}
+
+//	@Override
+//	public BaseResponse addUser(UserDTO userDTO) {
+//		
+//		if (userDTO != null && userDTO.getPassword() != null && userDTO.getUserName() != null
+//				&& userDTO.getRoleName() != null && !userDTO.getRoleName().isEmpty() ) {
+//
+//			User userCheck = userReponsitory.findByUserName(userDTO.getUserName());
+//
+//			if (userCheck == null) {
+//
+//				try {
+//
+////					if (roleNumberCreated > roleNew && roleNew > 0) {
+//						User userInserted = new User();
+//						userInserted.setCode(userDTO.getCode());
+//						userInserted.setUserName(userDTO.getUserName());
+//						userInserted.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+//						userInserted.setAddress(userDTO.getAddress());
+//						userInserted.setPhoneNumber(userDTO.getPhoneNumber());
+//						//set role
+//						Set<Role> roleInserted = new HashSet<>();
+//						for(String roleName : userDTO.getRoleName()) {
+//							try {
+//								roleInserted.add(roleReponsitory.findByRoleName(roleName));
+//							}catch (Exception e) {
+//								// TODO: handle exception
+//							}
+//							
+//						}
+//						userInserted.setRoles(roleInserted);
+//						userReponsitory.save(userInserted);
+//						
+//						return new OkResponse("Duoc tao user");
+//						
+////					} else {
+////						return new OkResponse("Khong co quyen tao user");
+////					}
+//				} catch (Exception e) {
+//					return new NotFoundResponse("Token invali!");
+//
+//				}
+//
+//			}
+//			else {
+//				return new NotFoundResponse("User da ton tai!");
+//			}
+//		}
+//		return new NotFoundResponse("Input invali!");
+//	}
 
 }

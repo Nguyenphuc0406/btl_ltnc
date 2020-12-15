@@ -46,11 +46,14 @@ public class UserController {
 	public BaseResponse addUser(@RequestBody UserDTO userDTO, @RequestHeader("accept-token") String token) {
 		return mUserService.addUser(userDTO, token);
 	}
+//	@PostMapping()
+//	public BaseResponse addUser(@RequestBody UserDTO userDTO) {
+//		return mUserService.addUser(userDTO);
+//	}
 
 	@PostMapping(ConfigUrl.LOGIN)
 	public BaseResponse login(@Valid @RequestBody UserDTO request) {
 
-//		System.out.println("DAC ok2" + request.getName() + request.getPass());
 //			// Xác thực từ username và password.
 
 		Authentication authentication = authenticationManager

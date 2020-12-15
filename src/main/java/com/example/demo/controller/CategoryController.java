@@ -19,12 +19,14 @@ import com.example.demo.service.CategoryService;
 import com.example.demo.utils.ConfigUrl;
 
 @RestController
+// @RestController = @Controller + @ResponseBody
 @RequestMapping(ConfigUrl.URL_CATEGORY)
 public class CategoryController {
 	@Autowired
 	CategoryService categoryService;
 
 	@PostMapping
+	
 	public BaseResponse addCategory(@RequestBody CategoryDTO categoryDTO) {
 		return categoryService.addCategory(categoryDTO);
 	}

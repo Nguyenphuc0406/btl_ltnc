@@ -7,7 +7,7 @@ import com.example.demo.model.UserDTO;
 
 public interface UserService {
 	public BaseResponse addUser(UserDTO userDTO, String token);
-
+//	public BaseResponse addUser(UserDTO userDTO);
 	public BaseResponse login(UserDTO userDTO);
 
 	public BaseResponse logout(UserDTO userDTO);

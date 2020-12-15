@@ -1,9 +1,7 @@
 package com.example.demo.security.jwt;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -17,8 +15,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
+//@AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
+	
 	User user;
 
 	@Override
@@ -27,7 +26,7 @@ public class CustomUserDetails implements UserDetails {
 		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 		Set<Role> roles = user.getRoles();
 		for (Role role : roles) {
-			grantedAuthorities.add(new SimpleGrantedAuthority( role.getRoleName()));
+			grantedAuthorities.add(new SimpleGrantedAuthority(role.getRoleName()));
 
 		}
 		return grantedAuthorities;
